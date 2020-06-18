@@ -9,6 +9,15 @@ jobs:
       image_version: '' # Filled in by the setup step.
 
     steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
+        displayName: 'Install Node.js'
+
+      - task: DockerInstaller@0
+        inputs:
+          dockerVersion: '17.09.0-ce'
+
       - bash: |
           #!/bin/bash
           echo '##[warning] Running setup tool'
