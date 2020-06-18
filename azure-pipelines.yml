@@ -4,7 +4,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - job: setup
+  - job: build
+    variables:
+      image_version: '' # Filled in by the setup step.
+
     steps:
       - bash: |
           #!/bin/bash
@@ -13,31 +16,22 @@ jobs:
           # This script exists to expose some variables to azure pipelines from the repo
           # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch
           # Figure out which branch we're on
-          branch=$(git rev-parse --abbrev-ref HEAD)
+          branch=`git rev-parse --abbrev-ref HEAD`
 
           if [[ "$branch" == "release" ]]; then
               # If we're on release branch, we'll tag the image with the package version.
               # NOTE: we should also tag with the git rev but I'm being lazy for now.
-              version=$(node -e 'console.log(require("./package.json").version)')
+              version=`node -e 'console.log(require("./package.json").version)'`
           else
               # If we're on any other branch, tag with the git revision.
-              version=$(git rev-parse HEAD)
+              version=`git rev-parse HEAD
           fi
 
-          echo "##vso[task.setvariable variable=image_version]$version";
-
-        name: set_vars
+          echo "##vso[task.setvariable variable=image_version]"$version
         displayName: "Set build variables from repo"
 
-  # Second job logs into docker registry and simply runs docker build/push with
-  # tag information from the first job
-  - job: build
-    dependsOn: setup
+      - bash: echo $(image_version)
 
-    variables:
-      image_version: $[ dependencies.setup.outputs['set_vars.image_version'] ]
-
-    steps:
       - task: Docker@2
         inputs:
           command: login
@@ -49,6 +43,5 @@ jobs:
           command: buildAndPush
           containerRegistry: emarcotte-registry
           repository: sandbox-20200610-98rxvk/deployment_app_1
-          tags: |
-            $(image_version)
+          tags: $(image_version)
 
