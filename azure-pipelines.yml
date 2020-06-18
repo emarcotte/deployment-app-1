@@ -31,7 +31,7 @@ jobs:
     dependsOn: setup
 
     variables:
-      image_version: $[ dependencies.A.outputs['set_vars.image_version'] ]
+      image_version: $[ dependencies.setup.outputs['set_vars.image_version'] ]
 
     steps:
       - task: Docker@2
@@ -43,6 +43,7 @@ jobs:
         displayName: "Build and push"
         inputs:
           command: buildAndPush
+          containerRegistry: emarcotte-registry
           repository: sandbox-20200610-98rxvk/deployment_app_1
           tags: |
             $(image_version)
