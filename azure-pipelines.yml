@@ -28,6 +28,6 @@ jobs:
         inputs:
           command: buildAndPush
           containerRegistry: emarcotte-registry
-          repository: grc.io/sandbox-20200610-98rxvk/deployment_app_1
+          imageName: sandbox-20200610-98rxvk/deployment_app_1
           tags: $(image_version)
 
