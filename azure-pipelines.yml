@@ -8,5 +8,5 @@ steps:
     inputs:
       command: login
       containerRegistry: emarcotte-registry
-  - displayName: "Build and push"
-    bash: ./build.sh
+  - bash: ./build.sh
+    displayName: "Build and push"
