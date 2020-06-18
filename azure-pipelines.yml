@@ -7,6 +7,9 @@ jobs:
   - job: setup
     steps:
       - bash: |
+          #!/bin/bash
+          echo '##[warning] Running setup tool'
+
           # This script exists to expose some variables to azure pipelines from the repo
           # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch
           # Figure out which branch we're on
@@ -21,7 +24,8 @@ jobs:
               version=$(git rev-parse HEAD)
           fi
 
-          echo "##vso[task.setvariable variable=image_version]$version"
+          echo "##vso[task.setvariable variable=image_version]$version";
+
         name: set_vars
         displayName: "Set build variables from repo"
 
