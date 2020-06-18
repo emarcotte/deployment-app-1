@@ -24,7 +24,7 @@ jobs:
               version=`node -e 'console.log(require("./package.json").version)'`
           else
               # If we're on any other branch, tag with the git revision.
-              version=`git rev-parse HEAD`
+              version=`git rev-parse HEAD
           fi
 
           echo "##vso[task.setvariable variable=image_version]"$version
