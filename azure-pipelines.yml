@@ -1,0 +1,33 @@
+# https://aka.ms/yaml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: build
+    variables:
+      image_version: '' # Filled in by the setup step.
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
+        displayName: 'Install Node.js'
+
+      - task: DockerInstaller@0
+        inputs:
+          dockerVersion: '17.09.0-ce'
+
+      - bash: ./set-build-vars.sh
+        displayName: "Set build variables from repo"
+
+      - bash: echo $(image_version)
+
+      - task: Docker@2
+        displayName: "Build and push"
+        inputs:
+          command: buildAndPush
+          containerRegistry: emarcotte-registry
+          repository: sandbox-20200610-98rxvk/deployment_app_1
+          tags: $(image_version)
+
