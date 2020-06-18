@@ -1,0 +1,12 @@
+# https://aka.ms/yaml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: Docker@2
+    inputs:
+      command: login
+      containerRegistry: emarcotte-registry
+  - displayName: "Build and push"
+    bash: ./build.sh

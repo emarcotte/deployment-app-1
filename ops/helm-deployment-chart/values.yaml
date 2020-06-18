@@ -1,0 +1,7 @@
+replicaCount: 1
+
+image:
+  name: gcr.io/sandbox-20200610-98rxvk/deployment_app_1
+  # use latest by default, but in general should be set externally to a specific
+  # version
+  tag: "latest"
