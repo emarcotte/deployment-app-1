@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This script exists to expose some variables to azure pipelines from the repo
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch
+
 set -e
 
 # Figure out which branch we're on
@@ -13,9 +16,5 @@ else
 	# If we're on any other branch, tag with the git revision.
 	version=$(git rev-parse HEAD)
 fi
-image=deployment_app_1
-repo=gcr.io/sandbox-20200610-98rxvk
 
-docker build -t $image:$version .
-docker tag  $image:$version $repo/$image:$version
-docker push $repo/$image:$version
+echo "##vso[task.setvariable variable=image_version]$version"

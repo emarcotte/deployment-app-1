@@ -3,10 +3,30 @@
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-  - task: Docker@2
-    inputs:
-      command: login
-      containerRegistry: emarcotte-registry
-  - bash: ./build.sh
-    displayName: "Build and push"
+jobs:
+  - job: setup
+    steps:
+      - bash: ./set-build-variables.sh
+        name: set-vars
+        displayName: "Set build variables from repo"
+
+  - job: build
+    dependsOn: setup
+
+    variables:
+      image_version: $[ dependencies.A.outputs['set-vars.image_version'] ]
+
+    steps:
+      - task: Docker@2
+        inputs:
+          command: login
+          containerRegistry: emarcotte-registry
+
+      - task: Docker@2
+        displayName: "Build and push"
+        inputs:
+          command: buildAndPush
+          repository: sandbox-20200610-98rxvk/deployment_app_1
+          tags: |
+            $(image_version)
+
