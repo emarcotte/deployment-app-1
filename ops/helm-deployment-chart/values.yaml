@@ -1,5 +1,14 @@
 replicaCount: 1
 
+# Trigger crashing responses
+crash_on_render: false
+
+# Trigger crashes at startup
+crash_on_boot: false
+
+# Customize the response
+message: ''
+
 image:
   name: gcr.io/sandbox-20200610-98rxvk/deployment_app_1
   # use latest by default, but in general should be set externally to a specific
