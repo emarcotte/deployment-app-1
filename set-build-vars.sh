@@ -1,9 +1,9 @@
 #!/bin/bash
 
+
 # This script exists to expose some variables to azure pipelines from the repo
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch
-# Figure out which branch we're on
-branch=`git rev-parse --abbrev-ref HEAD`
+branch=$1
 echo "##[debug] $branch"
 
 if [[ "$branch" == "release" ]]; then

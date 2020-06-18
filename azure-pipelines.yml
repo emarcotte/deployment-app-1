@@ -18,7 +18,7 @@ jobs:
         inputs:
           dockerVersion: '17.09.0-ce'
 
-      - bash: ./set-build-vars.sh
+      - bash: ./set-build-vars.sh $(Build.SourceBranchName)
         displayName: "Set build variables from repo"
 
       - bash: echo $(image_version)
