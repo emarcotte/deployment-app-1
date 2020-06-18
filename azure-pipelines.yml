@@ -4,17 +4,21 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
+  # First job exists to setup variables/declare dependencies for the docker
+  # build
   - job: setup
     steps:
       - bash: ./set-build-variables.sh
-        name: set-vars
+        name: set_vars
         displayName: "Set build variables from repo"
 
+  # Second job logs into docker registry and simply runs docker build/push with
+  # tag information from the first job
   - job: build
     dependsOn: setup
 
     variables:
-      image_version: $[ dependencies.A.outputs['set-vars.image_version'] ]
+      image_version: $[ dependencies.A.outputs['set_vars.image_version'] ]
 
     steps:
       - task: Docker@2
