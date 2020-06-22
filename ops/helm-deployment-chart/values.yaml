@@ -10,7 +10,7 @@ crash_on_boot: false
 message: ''
 
 image:
-  name: gcr.io/sandbox-20200610-98rxvk/deployment_app_1
+  name: gcr.io/sandbox-20200622-7e7hv0/deployment_app_1
   # use latest by default, but in general should be set externally to a specific
   # version
   tag: "latest"
