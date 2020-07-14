@@ -7,6 +7,4 @@ COPY --from=doitintl/secrets-init:v0.2.11 /usr/local/bin/secrets-init /usr/local
 
 RUN npm install
 
-ENV HELLO=gcp:secretmanager:projects/879760730093/secrets/my-database-password
-
 CMD secrets-init --provider google node index.js
