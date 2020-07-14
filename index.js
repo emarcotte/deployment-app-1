@@ -10,7 +10,7 @@ app.get('/', (_req, res) => {
 	if(process.env['CRASH_ON_RENDER']) {
 		throw new Error(process.env['CRASH']);
 	}
-	res.send(`Hello World! ${process.env['EXTRA']} ${process.env['HELLO']}`);
+	res.send(`Hello World! ${process.env['EXTRA']}, ${process.env['HELLO']}`);
 });
 
 app.listen(port);
